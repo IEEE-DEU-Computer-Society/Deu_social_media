@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/postFragment">
+
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.deu_social_media.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_postFragment_to_fragmentTop"
+            app:destination="@id/fragmentTop" />
+        <action
+            android:id="@+id/action_postFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_postFragment_to_clubsFragment"
+            app:destination="@id/clubsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTop"
+        android:name="com.example.deu_social_media.FragmentTop"
+        android:label="fragment_top"
+        tools:layout="@layout/fragment_top" >
+        <action
+            android:id="@+id/action_fragmentTop_to_postFragment"
+            app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/action_fragmentTop_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_fragmentTop_to_clubsFragment"
+            app:destination="@id/clubsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.deu_social_media.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_fragmentTop"
+            app:destination="@id/fragmentTop" />
+        <action
+            android:id="@+id/action_profileFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_clubsFragment"
+            app:destination="@id/clubsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clubsFragment"
+        android:name="com.example.deu_social_media.ClubsFragment"
+        android:label="fragment_clubs"
+        tools:layout="@layout/fragment_clubs" >
+        <action
+            android:id="@+id/action_clubsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_clubsFragment_to_fragmentTop"
+            app:destination="@id/fragmentTop" />
+        <action
+            android:id="@+id/action_clubsFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+    </fragment>
+</navigation>
