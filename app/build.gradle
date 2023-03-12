@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android-extensions'
+
+    id 'androidx.navigation.safeargs'
+
 }
 
 android {
@@ -30,17 +34,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildscript {
-        dependencies {
-            classpath 'com.google.gms:google-services:4.3.15'
-            def nav_version = "2.5.3"
-            classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
-        }
-    }// Top-level build file where you can add configuration options common to all sub-projects/modules.
+    buildFeatures{
+        viewBinding true
+    }
+
 }
 
 dependencies {
     def nav_version = "2.5.3"
+
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.core:core-ktx:1.7.0'

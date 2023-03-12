@@ -7,7 +7,7 @@
     tools:context=".RegisterFragment">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/etNick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="108dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/etPassword1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -27,40 +27,41 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintStart_toStartOf="@+id/etEmail"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail"
         app:layout_constraintVertical_bias="0.031" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/etEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="4dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintEnd_toEndOf="@+id/etNick"
+        app:layout_constraintTop_toBottomOf="@+id/etNick" />
 
     <EditText
-        android:id="@+id/editTextTextPassword3"
+        android:id="@+id/etPassword2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintStart_toStartOf="@+id/etPassword1"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword1" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:onClick="register"
         android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword3"
+        app:layout_constraintEnd_toEndOf="@+id/etPassword2"
         app:layout_constraintHorizontal_bias="0.336"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword3" />
+        app:layout_constraintStart_toStartOf="@+id/etPassword2"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
