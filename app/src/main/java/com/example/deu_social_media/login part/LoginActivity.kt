@@ -1,5 +1,6 @@
 package com.example.deu_social_media
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -50,6 +51,22 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+    }
+    fun login(v:View){
+        var email=findViewById<EditText>(R.id.etEmailLogin).text.toString()
+        var password=findViewById<EditText>(R.id.etPasswordLogin).text.toString()
+        if (!email.isNullOrBlank() && !password.isNullOrBlank()){
+
+            /* authentication part*/
+            /* if it pass
+            *
+            * */
+            val intent=Intent(this,MainActivity::class.java)
+            startActivity(intent)
+
+        }else{
+            Toast.makeText(this,"Please fill all boxes",Toast.LENGTH_LONG).show()
+        }
     }
 
 }
