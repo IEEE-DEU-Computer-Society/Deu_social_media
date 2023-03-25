@@ -2,9 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
-
     id 'androidx.navigation.safeargs'
-
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -41,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.5'
     def nav_version = "2.5.3"
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -52,4 +52,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth:17.0.0'
+
+    implementation 'com.google.firebase:firebase-firestore:15.0.0'
+    implementation "com.firebaseui:firebase-ui-firestore:3.3.1"
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "331266547136",
+    "project_id": "deu-social-media",
+    "storage_bucket": "deu-social-media.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331266547136:android:cec930466630589d777c25",
+        "android_client_info": {
+          "package_name": "com.example.deu_social_media"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331266547136-s1fko8ukko8arp6jo749uapq29qev5c2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAJ9ksfQW0bgYEcuVAiLhUM4QRs5KA8Ik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331266547136-s1fko8ukko8arp6jo749uapq29qev5c2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

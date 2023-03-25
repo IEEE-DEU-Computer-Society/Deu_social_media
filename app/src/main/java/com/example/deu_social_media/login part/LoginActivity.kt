@@ -1,24 +1,33 @@
 package com.example.deu_social_media
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
-import com.example.deu_social_media.databinding.ActivityLoginBinding
-import kotlinx.android.synthetic.main.fragment_login.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
+    //ELİF ARAS Authentication için firebase bağlantısı
+    var mAuth: FirebaseAuth? = null;
+    //ELİF ARAS student için firestore bağlantısı
+    var firebaseFirestoreDb: FirebaseFirestore? = null;
+    var collectionReference: CollectionReference? = null;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        mAuth = FirebaseAuth.getInstance();
+        //ELİF ARAS student için firestore collection bağlantısı
+        collectionReference = firebaseFirestoreDb?.collection("students");
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-
     }
     fun goToregister(v:View){
         var action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
