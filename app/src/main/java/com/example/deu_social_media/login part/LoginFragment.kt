@@ -1,5 +1,6 @@
 package com.example.deu_social_media
 
+import android.os.Binder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
