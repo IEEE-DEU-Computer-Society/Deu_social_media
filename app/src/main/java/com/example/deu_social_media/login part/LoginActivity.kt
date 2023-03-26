@@ -14,23 +14,23 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_register.*
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding:ActivityLoginBinding
-    lateinit var bindingRegister : FragmentRegisterBinding
-    lateinit var bindingLogin: FragmentLoginBinding
+    lateinit var binding: ActivityLoginBinding
+
 
     //ELİF ARAS Authentication için firebase bağlantısı
     var mAuth: FirebaseAuth? = null;
+
     //ELİF ARAS student için firestore bağlantısı
     var firebaseFirestoreDb: FirebaseFirestore? = null;
     var collectionReference: CollectionReference? = null;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        bindingRegister= FragmentRegisterBinding.inflate(layoutInflater)
-        bindingLogin= FragmentLoginBinding.inflate(layoutInflater)
-        binding= ActivityLoginBinding.inflate(layoutInflater)
+
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -38,34 +38,35 @@ class LoginActivity : AppCompatActivity() {
         collectionReference = firebaseFirestoreDb?.collection("students");
 
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_login)
     }
-    fun goToregister(v:View){
+
+    fun goToregister(v: View) {
         var action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
         Navigation.findNavController(v).navigate(action)
     }
-    fun register(v:View){
-        var nick=bindingRegister.etNick.text.toString()
-        var email=bindingRegister.etEmail.text.toString()
-        var password1=bindingRegister.etPassword1.text.toString()
-        var password2=bindingRegister.etPassword2.text.toString()
+     fun register(v:View){
+        var nick=etNick.text.toString()
+        var email=etEmail.text.toString()
+        var password1=etPassword1.text.toString()
+        var password2=etPassword2.text.toString()
         var empty=false
         if (nick.isNullOrBlank()){
             empty=true
-            bindingRegister.etNick.error="Nick kısmı boş geçilemez"
+            etNick.error="Nick kısmı boş geçilemez"
         }
         if(email.isNullOrBlank()) {
             empty = true
-            bindingRegister.etEmail.error="E-mail kısmı boş geçilemez"
+            etEmail.error="E-mail kısmı boş geçilemez"
 
         }
         if(password1.isNullOrBlank()){
             empty=true
-            bindingRegister.etPassword1.error="Şifre kısmı boş geçilemez"
+            etPassword1.error="Şifre kısmı boş geçilemez"
         }
         if(password2.isNullOrBlank()){
             empty=true
-            bindingRegister.etPassword2.error="Şifre kısmı boş geçilemez"
+            etPassword2.error="Şifre kısmı boş geçilemez"
         }
 
 
@@ -79,17 +80,13 @@ class LoginActivity : AppCompatActivity() {
 
                     }
                 }.addOnFailureListener {
-                    Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                    Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
                 }
 
-
-
-
-
             }else{
-                bindingRegister.etPassword1.error="Şifreler eşleşmiyor"
-                bindingRegister.etPassword1.text.clear()
-                bindingRegister.etPassword2.text.clear()
+                etPassword1.error="Şifreler eşleşmiyor"
+                etPassword1.text.clear()
+                etPassword2.text.clear()
 
             }
 
@@ -101,16 +98,16 @@ class LoginActivity : AppCompatActivity() {
 
     }
     fun login(v:View){
-        var email=bindingLogin.etEmailLogin.text.toString()
-        var password=bindingLogin.etPasswordLogin.text.toString()
+        var email=etEmailLogin.text.toString()
+        var password=etPasswordLogin.text.toString()
         var empty=false
         if (email.isNullOrBlank()){
             empty=true
-            bindingLogin.etEmailLogin.error="E-mail kısmı boş geçilemez"
+            etEmailLogin.error="E-mail kısmı boş geçilemez"
         }
         if (password.isNullOrBlank()){
             empty=true
-            bindingLogin.etPasswordLogin.error="Şifre kısmı boş geçilemez"
+            etPasswordLogin.error="Şifre kısmı boş geçilemez"
         }
 
 
@@ -125,7 +122,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }.addOnFailureListener {
 
-                Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
             }
 
         }
