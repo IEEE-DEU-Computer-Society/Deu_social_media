@@ -11,10 +11,15 @@ import com.example.deu_social_media.databinding.ActivityLoginBinding
 import com.example.deu_social_media.databinding.FragmentLoginBinding
 import com.example.deu_social_media.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_register.*
+import java.lang.ref.Reference
+import java.util.UUID
+import kotlin.random.Random
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -27,18 +32,30 @@ class LoginActivity : AppCompatActivity() {
     var firebaseFirestoreDb: FirebaseFirestore? = null;
     var collectionReference: CollectionReference? = null;
 
+    lateinit var nicksRef:DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-
-
-
         mAuth = FirebaseAuth.getInstance();
+        firebaseFirestoreDb=FirebaseFirestore.getInstance()
         //ELİF ARAS student için firestore collection bağlantısı
         collectionReference = firebaseFirestoreDb?.collection("students");
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        var currentUser= mAuth!!.currentUser
+        if (currentUser!=null){
+            val intent=Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+
+
+
     }
 
     fun goToregister(v: View) {
@@ -73,10 +90,26 @@ class LoginActivity : AppCompatActivity() {
 
         if (!empty){
             if(password1.equals(password2)){
+
                 mAuth!!.createUserWithEmailAndPassword(email,password1).addOnCompleteListener {
                     if (it.isSuccessful){
-                        val action=RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-                        Navigation.findNavController(v).navigate(action)
+                        var id= UUID.randomUUID()
+
+                        var hash=HashMap<String,Any>()
+                        hash.put("nick",nick)
+                        hash.put("email",email)
+
+                        firebaseFirestoreDb!!.collection("nicks").document().collection(id.toString()).add(hash).addOnCompleteListener {
+                            if(it.isSuccessful){
+                                val action=RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                                Navigation.findNavController(v).navigate(action)
+                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                        }
+
+
+
 
                     }
                 }.addOnFailureListener {

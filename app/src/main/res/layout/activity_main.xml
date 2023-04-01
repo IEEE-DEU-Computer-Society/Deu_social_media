@@ -76,13 +76,14 @@
            android:layout_weight="1"
            android:background="@drawable/radio_group_button_selector"
            android:button="@null"
-           android:checked="true"
+           android:checked="false"
            android:gravity="center"
            android:text="GüNDEM"
            android:textColor="@drawable/radio_group_text_colors"
            tools:ignore="TouchTargetSizeCheck"></RadioButton>
 
        <RadioButton
+           android:id="@+id/btnNewpost"
            android:layout_width="0dp"
            android:layout_height="40dp"
            android:layout_margin="3dp"

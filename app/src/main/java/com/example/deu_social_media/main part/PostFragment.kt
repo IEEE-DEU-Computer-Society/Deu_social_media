@@ -1,32 +1,47 @@
 package com.example.deu_social_media
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.deu_social_media.databinding.FragmentPostBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_post.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PostFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
+
 class PostFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit var binding: FragmentPostBinding
+    private lateinit var database: FirebaseFirestore
+    private var postList=ArrayList<Post>()
+    private lateinit var recyclerAdapter: PostRecyclerAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        binding= FragmentPostBinding.inflate(layoutInflater)
+        database= FirebaseFirestore.getInstance()
+      
+        binding.postFragmentRv.layoutManager=LinearLayoutManager(binding.root.context)
+        recyclerAdapter= PostRecyclerAdapter(postList)
+        binding.postFragmentRv.hasFixedSize()
+        binding.postFragmentRv.adapter=recyclerAdapter
+        recyclerAdapter.notifyDataSetChanged()
+
+
+
+
     }
 
     override fun onCreateView(
@@ -35,25 +50,52 @@ class PostFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_post, container, false)
-    }
+        database= FirebaseFirestore.getInstance()
+        refreshData()
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PostFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PostFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+
+
+
+
+
+
+
+
+
+
+    }
+    private fun refreshData(){
+        database.collection("Post").addSnapshotListener { value, error ->
+            if(error!=null){
+                Toast.makeText(activity,error.localizedMessage, Toast.LENGTH_LONG)
+                println(error.localizedMessage)
+            }else{
+                if(value!=null && !value.isEmpty){
+                    val posts=value!!.documents
+                    postList.clear()
+                    for(it in posts){
+                        if(it.get("postText") as String !="test text5"){
+                        var nick=it.get("nick") as String
+                        var postText=it.get("postText") as String
+                        var likeNumber=it.get("likeNumber") as String
+                        var dislikeNumber=it.get("dislikeNumber") as String
+                        var comments=it.get("comments") as HashMap<String, Any>
+                        var commentsNumber=it.get("commentsNumber") as String
+                        var newPost=Post(
+                            nick,postText,likeNumber, dislikeNumber, comments, commentsNumber
+                        )
+                        postList.add(newPost)
+                        println("başrıyla yenilendi")}
+                    }
+                    recyclerAdapter.notifyDataSetChanged()
+
+                }else{
+                    println("there is an error occured")
                 }
             }
+        }
     }
+
+
 }

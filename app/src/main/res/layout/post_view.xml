@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginVertical="5dp"
     >
+
     <TextView
-        android:layout_marginHorizontal="15dp"
+        android:id="@+id/etNick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eren özdemir"
-        android:textSize="20dp"
-        android:paddingHorizontal="30dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
+        android:layout_marginHorizontal="15dp"
         android:background="@drawable/post_border"
-        ></TextView>
+        android:paddingHorizontal="30dp"
+        android:text="Eren özdemir"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"></TextView>
+
     <TextView
+        android:id="@+id/postText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:background="@drawable/post_border"
         android:paddingHorizontal="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="deneme postu \n deneme \n deneme \n dasjgdaskhgda"
 
+        android:text="deneme postu \n deneme \n deneme \n dasjgdaskhgda"
         android:textSize="17dp"></TextView>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -34,26 +38,32 @@
         >
 
         <Button
+            android:id="@+id/btnLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:text="BEĞEN"
             android:textSize="15dp"
-            android:layout_marginHorizontal="5dp"
-            ></Button>
+            tools:ignore="TextSizeCheck"></Button>
+
 
         <Button
+            android:id="@+id/btnDislike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:text="BEĞENME"
             android:textSize="15dp"
-            android:layout_marginHorizontal="5dp"
-            ></Button>
+            tools:ignore="TextSizeCheck"></Button>
+
         <Button
+            android:id="@+id/btnComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:text="Yorum"
             android:textSize="15dp"
-            android:layout_marginHorizontal="5dp"></Button>
+            tools:ignore="TextSizeCheck"></Button>
 
     </LinearLayout>
 
