@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.example.deu_social_media.databinding.FragmentPostBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,28 +20,34 @@ import kotlinx.android.synthetic.main.fragment_post.*
 
 
 class PostFragment : Fragment() {
-    lateinit var binding: FragmentPostBinding
     private lateinit var database: FirebaseFirestore
     private var postList=ArrayList<Post>()
     private lateinit var recyclerAdapter: PostRecyclerAdapter
+    private lateinit var rvPost:RecyclerView
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= FragmentPostBinding.inflate(layoutInflater)
+
+
         database= FirebaseFirestore.getInstance()
-      
-        binding.postFragmentRv.layoutManager=LinearLayoutManager(binding.root.context)
-        recyclerAdapter= PostRecyclerAdapter(postList)
-        binding.postFragmentRv.hasFixedSize()
-        binding.postFragmentRv.adapter=recyclerAdapter
-        recyclerAdapter.notifyDataSetChanged()
-
-
-
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val layoutManager=LinearLayoutManager(context)
+        refreshData()
+        rvPost=view.findViewById(R.id.postFragmentRv)
+        rvPost.layoutManager=layoutManager
+
+        recyclerAdapter= PostRecyclerAdapter(postList)
+        rvPost.adapter=recyclerAdapter
+
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,23 +55,14 @@ class PostFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_post, container, false)
-        database= FirebaseFirestore.getInstance()
         refreshData()
-
-
-
-
-
-
-
-
 
 
 
 
     }
     private fun refreshData(){
-        database.collection("Post").addSnapshotListener { value, error ->
+        database.collection("Post").orderBy("date",Query.Direction.DESCENDING).addSnapshotListener { value, error ->
             if(error!=null){
                 Toast.makeText(activity,error.localizedMessage, Toast.LENGTH_LONG)
                 println(error.localizedMessage)
@@ -86,7 +82,8 @@ class PostFragment : Fragment() {
                             nick,postText,likeNumber, dislikeNumber, comments, commentsNumber
                         )
                         postList.add(newPost)
-                        println("başrıyla yenilendi")}
+                        println("başrıyla yenilendi")
+                        }
                     }
                     recyclerAdapter.notifyDataSetChanged()
 

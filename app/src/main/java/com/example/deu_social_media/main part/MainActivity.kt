@@ -29,17 +29,32 @@ class MainActivity : AppCompatActivity() {
         auth=FirebaseAuth.getInstance()
 
         setContentView(binding.root)
+        replaceFragment(PostFragment())
 
-
-
-
-        btnNewpost.setOnClickListener {
-            val intent=Intent(this,NewPostActivity::class.java)
-            startActivity(intent)
+        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.rbPost->replaceFragment(PostFragment())
+                R.id.rbCommunity->replaceFragment(ClubsFragment())
+                R.id.rbProfile->replaceFragment(ProfileFragment())
+                R.id.rbTop->replaceFragment(FragmentTop())
+                R.id.btnNewpost->{
+                    val intent=Intent(this,NewPostActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
 
 
 
+
+
+
+    }
+    fun replaceFragment(fragment:Fragment){
+        val fragmentManager=supportFragmentManager
+        val fragmentTransaction=fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragmentContainerView,fragment)
+        fragmentTransaction.commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

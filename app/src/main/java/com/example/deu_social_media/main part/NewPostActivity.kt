@@ -31,40 +31,64 @@ class NewPostActivity : AppCompatActivity() {
     fun share(v:View){
         var postText=binding.etPost.text.toString()
         if (!postText.isNullOrBlank()){
-            var nick=findNick(auth.currentUser!!.email.toString())
-
-                var id= UUID.randomUUID()
-                val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-                val currentDate = sdf.format(Date())
-
-                var hash=HashMap<String,Any>()
-                var comments=java.util.HashMap<String,Any>()
-                hash.put("nick",nick.toString())
-                hash.put("postText",postText)
-                hash.put("likeNumber","0")
-                hash.put("dislikeNumber","0")
-                hash.put("comments",comments)
-                hash.put("commentsNumber","0")
-                hash.put("date",currentDate)
-                database.collection("Post").add(hash).addOnCompleteListener {
-                    if(it.isSuccessful){
-                        println("başarıyla yüklendi")
-
-                        finish()
-                    }
-
-                }.addOnFailureListener {
-                    Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+            var nick:String?=null
+            val email=auth.currentUser!!.email.toString()
+            database.collection("nicks").whereEqualTo("email",email).addSnapshotListener { value, error ->
+                if(error!=null){
+                    Toast.makeText(applicationContext,error.localizedMessage,Toast.LENGTH_LONG)
                 }
+                else{
+                    if(value!=null && !value.isEmpty){
+                        val nicks=value.documents
+
+                        for(it in nicks){
+                            if(it.get("email")!!.equals(email)){
+                                nick= it.get("nick") as String?
+                                break
+                            }
+
+                        }
+                        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+                        val currentDate = sdf.format(Date())
+
+                        var hash=HashMap<String,Any>()
+                        var comments=java.util.HashMap<String,Any>()
+                        hash.put("nick",nick.toString())
+                        hash.put("postText",postText)
+                        hash.put("likeNumber","0")
+                        hash.put("dislikeNumber","0")
+                        hash.put("comments",comments)
+                        hash.put("commentsNumber","0")
+                        hash.put("date",currentDate)
+                        database.collection("Post").add(hash).addOnCompleteListener {
+                            if(it.isSuccessful){
+                                println("başarıyla yüklendi")
+
+                                finish()
+                            }
+
+                        }.addOnFailureListener {
+                            Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                        }
+
+
+                    }
+                }
+
+            }
+
+
+
+
 
 
 
 
         }
     }
-    private fun findNick(email:String):String?{
+    /*private fun findNick(email:String):String?{
         var retStr:String?=null
-        database.collection("nicks").whereEqualTo("email",email).addSnapshotListener { value, error ->
+        database.collection("nicks").addSnapshotListener { value, error ->
             if(error!=null){
                 Toast.makeText(applicationContext,error.localizedMessage,Toast.LENGTH_LONG)
             }
@@ -83,6 +107,6 @@ class NewPostActivity : AppCompatActivity() {
             }
 
         }
-        return retStr
-    }
+
+    }*/
 }

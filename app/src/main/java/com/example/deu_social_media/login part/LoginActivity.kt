@@ -3,23 +3,17 @@ package com.example.deu_social_media
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.example.deu_social_media.databinding.ActivityLoginBinding
-import com.example.deu_social_media.databinding.FragmentLoginBinding
-import com.example.deu_social_media.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_register.*
-import java.lang.ref.Reference
 import java.util.UUID
-import kotlin.random.Random
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -63,14 +57,14 @@ class LoginActivity : AppCompatActivity() {
         Navigation.findNavController(v).navigate(action)
     }
      fun register(v:View){
-        var nick=etNick.text.toString()
+        var nick=etPostNick.text.toString()
         var email=etEmail.text.toString()
         var password1=etPassword1.text.toString()
         var password2=etPassword2.text.toString()
         var empty=false
         if (nick.isNullOrBlank()){
             empty=true
-            etNick.error="Nick kısmı boş geçilemez"
+            etPostNick.error="Nick kısmı boş geçilemez"
         }
         if(email.isNullOrBlank()) {
             empty = true
@@ -93,13 +87,13 @@ class LoginActivity : AppCompatActivity() {
 
                 mAuth!!.createUserWithEmailAndPassword(email,password1).addOnCompleteListener {
                     if (it.isSuccessful){
-                        var id= UUID.randomUUID()
+
 
                         var hash=HashMap<String,Any>()
                         hash.put("nick",nick)
                         hash.put("email",email)
 
-                        firebaseFirestoreDb!!.collection("nicks").document().collection(id.toString()).add(hash).addOnCompleteListener {
+                        firebaseFirestoreDb!!.collection("nicks").add(hash).addOnCompleteListener {
                             if(it.isSuccessful){
                                 val action=RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                                 Navigation.findNavController(v).navigate(action)
