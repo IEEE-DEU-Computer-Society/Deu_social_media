@@ -30,14 +30,34 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
         replaceFragment(PostFragment())
+        rbPost.isChecked=true
 
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            btnNewpost.isChecked=false
+            rbPost.isChecked=false
+            rbCommunity.isChecked=false
+            rbProfile.isChecked=false
+            rbTop.isChecked=false
             when(checkedId){
-                R.id.rbPost->replaceFragment(PostFragment())
-                R.id.rbCommunity->replaceFragment(ClubsFragment())
-                R.id.rbProfile->replaceFragment(ProfileFragment())
-                R.id.rbTop->replaceFragment(FragmentTop())
+                R.id.rbPost->{
+                    rbPost.isChecked=true
+                    replaceFragment(PostFragment())
+
+                }
+                R.id.rbCommunity->{
+                    rbCommunity.isChecked=true
+                    replaceFragment(ClubsFragment())
+                }
+                R.id.rbProfile->{
+                    rbProfile.isChecked=true
+                    replaceFragment(ProfileFragment())
+                }
+                R.id.rbTop->{
+                    rbTop.isChecked=true
+                    replaceFragment(FragmentTop())
+                }
                 R.id.btnNewpost->{
+                    btnNewpost.isChecked=true
                     val intent=Intent(this,NewPostActivity::class.java)
                     startActivity(intent)
                 }

@@ -85,44 +85,41 @@ class LoginActivity : AppCompatActivity() {
         if (!empty){
             nick=nick.toLowerCase()
             if(password1.equals(password2)){
+                firebaseFirestoreDb!!.collection("nicks").whereEqualTo("nick",nick).addSnapshotListener { value, error ->
+                    if (error!=null){
+                        Toast.makeText(applicationContext,error.localizedMessage,Toast.LENGTH_LONG)
+                    }
+                    else{
+                        if(value==null || value.isEmpty){
+                            var hash=HashMap<String,Any>()
 
-                mAuth!!.createUserWithEmailAndPassword(email,password1).addOnCompleteListener {
-                    if (it.isSuccessful){
-                        firebaseFirestoreDb!!.collection("nicks").whereEqualTo("nick",nick).addSnapshotListener { value, error ->
-                            if (error!=null){
-                                Toast.makeText(applicationContext,error.localizedMessage,Toast.LENGTH_LONG)
-                            }
-                            else{
-                                if(value==null || value.isEmpty){
-                                    var hash=HashMap<String,Any>()
+                            hash.put("nick",nick)
+                            hash.put("email",email)
 
-                                    hash.put("nick",nick)
-                                    hash.put("email",email)
+                            firebaseFirestoreDb!!.collection("nicks").add(hash).addOnCompleteListener {
+                                if(it.isSuccessful){
+                                    mAuth!!.createUserWithEmailAndPassword(email,password1).addOnCompleteListener {
+                                        if (it.isSuccessful){
 
-                                    firebaseFirestoreDb!!.collection("nicks").add(hash).addOnCompleteListener {
-                                        if(it.isSuccessful){
                                             val action=RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                                             Navigation.findNavController(v).navigate(action)
-                                        }
+                                          }
                                     }.addOnFailureListener {
-                                        Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                                        Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
                                     }
+
                                 }
-                                else{
-                                    Toast.makeText(applicationContext,getString(R.string.this_nick_has_been_taken),Toast.LENGTH_LONG)
-                                }
+                            }.addOnFailureListener {
+                                Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
                             }
                         }
-
-
-
-
-
-
+                        else{
+                            Toast.makeText(applicationContext,getString(R.string.this_nick_has_been_taken),Toast.LENGTH_LONG).show()
+                        }
                     }
-                }.addOnFailureListener {
-                    Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
                 }
+
+
 
             }else{
                 etPassword1.error="Şifreler eşleşmiyor"

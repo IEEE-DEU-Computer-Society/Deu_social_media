@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
@@ -45,6 +46,9 @@ class PostFragment : Fragment() {
         recyclerAdapter= PostRecyclerAdapter(postList)
         rvPost.adapter=recyclerAdapter
 
+
+
+
     }
 
 
@@ -55,7 +59,7 @@ class PostFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_post, container, false)
-        refreshData()
+
 
 
 
@@ -72,17 +76,21 @@ class PostFragment : Fragment() {
                     postList.clear()
                     for(it in posts){
                         if(it.get("postText") as String !="test text5"){
-                        var nick=it.get("nick") as String
-                        var postText=it.get("postText") as String
-                        var likeNumber=it.get("likeNumber") as String
-                        var dislikeNumber=it.get("dislikeNumber") as String
-                        var comments=it.get("comments") as HashMap<String, Any>
-                        var commentsNumber=it.get("commentsNumber") as String
-                        var newPost=Post(
-                            nick,postText,likeNumber, dislikeNumber, comments, commentsNumber
-                        )
-                        postList.add(newPost)
-                        println("başrıyla yenilendi")
+                            if(it.get("id")!=null){
+                                var nick=it.get("nick") as String
+                                var postText=it.get("postText") as String
+                                var likeNumber=it.get("likeNumber") as String
+                                var dislikeNumber=it.get("dislikeNumber") as String
+                                var comments=it.get("comments") as HashMap<String, Any>
+                                var commentsNumber=it.get("commentsNumber") as String
+                                var date=it.get("date") as String
+                                var id=it.get("id") as String
+                                var newPost=Post(
+                                    nick,postText,likeNumber, dislikeNumber, comments, commentsNumber,date,id
+                                )
+                                postList.add(newPost)
+                                println("başrıyla yenilendi")
+                            }
                         }
                     }
                     recyclerAdapter.notifyDataSetChanged()

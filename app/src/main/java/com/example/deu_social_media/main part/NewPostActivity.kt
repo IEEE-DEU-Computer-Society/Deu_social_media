@@ -53,6 +53,7 @@ class NewPostActivity : AppCompatActivity() {
 
                         var hash=HashMap<String,Any>()
                         var comments=java.util.HashMap<String,Any>()
+                        var id=UUID.randomUUID()
                         hash.put("nick",nick.toString())
                         hash.put("postText",postText)
                         hash.put("likeNumber","0")
@@ -60,6 +61,7 @@ class NewPostActivity : AppCompatActivity() {
                         hash.put("comments",comments)
                         hash.put("commentsNumber","0")
                         hash.put("date",currentDate)
+
                         database.collection("Post").add(hash).addOnCompleteListener {
                             if(it.isSuccessful){
                                 println("başarıyla yüklendi")
