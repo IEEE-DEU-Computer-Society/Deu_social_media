@@ -83,24 +83,38 @@ class LoginActivity : AppCompatActivity() {
 
 
         if (!empty){
+            nick=nick.toLowerCase()
             if(password1.equals(password2)){
 
                 mAuth!!.createUserWithEmailAndPassword(email,password1).addOnCompleteListener {
                     if (it.isSuccessful){
-
-
-                        var hash=HashMap<String,Any>()
-                        hash.put("nick",nick)
-                        hash.put("email",email)
-
-                        firebaseFirestoreDb!!.collection("nicks").add(hash).addOnCompleteListener {
-                            if(it.isSuccessful){
-                                val action=RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-                                Navigation.findNavController(v).navigate(action)
+                        firebaseFirestoreDb!!.collection("nicks").whereEqualTo("nick",nick).addSnapshotListener { value, error ->
+                            if (error!=null){
+                                Toast.makeText(applicationContext,error.localizedMessage,Toast.LENGTH_LONG)
                             }
-                        }.addOnFailureListener {
-                            Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                            else{
+                                if(value==null || value.isEmpty){
+                                    var hash=HashMap<String,Any>()
+
+                                    hash.put("nick",nick)
+                                    hash.put("email",email)
+
+                                    firebaseFirestoreDb!!.collection("nicks").add(hash).addOnCompleteListener {
+                                        if(it.isSuccessful){
+                                            val action=RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                                            Navigation.findNavController(v).navigate(action)
+                                        }
+                                    }.addOnFailureListener {
+                                        Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(applicationContext,getString(R.string.this_nick_has_been_taken),Toast.LENGTH_LONG)
+                                }
+                            }
                         }
+
+
 
 
 
