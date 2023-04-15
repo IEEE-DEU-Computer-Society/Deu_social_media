@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_main.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,8 +62,9 @@ class NewPostActivity : AppCompatActivity() {
                         hash.put("comments",comments)
                         hash.put("commentsNumber","0")
                         hash.put("date",currentDate)
+                        hash.put("id",id.toString())
 
-                        database.collection("Post").add(hash).addOnCompleteListener {
+                        database.collection("Post").document().collection(id.toString()).add(hash).addOnCompleteListener {
                             if(it.isSuccessful){
                                 println("başarıyla yüklendi")
 
@@ -70,7 +72,7 @@ class NewPostActivity : AppCompatActivity() {
                             }
 
                         }.addOnFailureListener {
-                            Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG)
+                            Toast.makeText(applicationContext,it.localizedMessage,Toast.LENGTH_LONG).show()
                         }
 
 
@@ -88,6 +90,8 @@ class NewPostActivity : AppCompatActivity() {
 
         }
     }
+
+
     /*private fun findNick(email:String):String?{
         var retStr:String?=null
         database.collection("nicks").addSnapshotListener { value, error ->

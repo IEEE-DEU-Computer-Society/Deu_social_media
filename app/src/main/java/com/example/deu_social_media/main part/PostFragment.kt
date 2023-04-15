@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
@@ -69,14 +68,14 @@ class PostFragment : Fragment() {
         database.collection("Post").orderBy("date",Query.Direction.DESCENDING).addSnapshotListener { value, error ->
             if(error!=null){
                 Toast.makeText(activity,error.localizedMessage, Toast.LENGTH_LONG)
-                println(error.localizedMessage)
+
             }else{
                 if(value!=null && !value.isEmpty){
                     val posts=value!!.documents
                     postList.clear()
                     for(it in posts){
                         if(it.get("postText") as String !="test text5"){
-                            if(it.get("id")!=null){
+
                                 var nick=it.get("nick") as String
                                 var postText=it.get("postText") as String
                                 var likeNumber=it.get("likeNumber") as String
@@ -84,13 +83,15 @@ class PostFragment : Fragment() {
                                 var comments=it.get("comments") as HashMap<String, Any>
                                 var commentsNumber=it.get("commentsNumber") as String
                                 var date=it.get("date") as String
-                                var id=it.get("id") as String
+                                var id=(it.get("id") ).toString()
+
+
                                 var newPost=Post(
                                     nick,postText,likeNumber, dislikeNumber, comments, commentsNumber,date,id
                                 )
                                 postList.add(newPost)
                                 println("başrıyla yenilendi")
-                            }
+
                         }
                     }
                     recyclerAdapter.notifyDataSetChanged()
